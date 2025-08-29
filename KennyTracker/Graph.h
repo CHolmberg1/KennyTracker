@@ -2,20 +2,32 @@
 #include <vector>
 #include <QString>
 
+class Node;
+
 struct Edge {
+	// Constructor
+	Edge(const double dx, const double dy, Node* n1, Node* n2) { m_dx = dx; m_dy = dy; m_link = std::make_pair(n1, n2); }
 	// Distance deltas TODO: Find units suitable for this use case
-	double dx;
-	double dy;
-	// Edge Link (statically two)
-	std::pair<Node, Node> m_link;
+	double m_dx;
+	double m_dy;
+	// Edge Link (statically two nodes per link)
+	std::pair<Node*, Node*> m_link;
 };
 
 class Node {
 public:
-	Node(const double x, const double y);
-	~Node();
-	const double getX();
-	const double getY();
+	Node(const double x, const double y) : m_x(x), m_y(y) {}
+	~Node() {}
+	const double getX() { return m_x; }
+	const double getY() { return m_y; }
+	void addEdge(Node* connectingNode) 
+	{
+		if (!connectingNode)
+			return;
+		Edge* newEdge = new Edge(abs(getX() - connectingNode->getX()), abs(getY() - connectingNode->getY()), this, connectingNode);
+		m_edges.push_back(newEdge);
+		connectingNode->m_edges.push_back(newEdge);
+	}
 private:
 	// Coordinates on the blacksburg map
 	const double m_x;

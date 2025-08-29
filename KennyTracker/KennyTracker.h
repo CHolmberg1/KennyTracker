@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_KennyTracker.h"
+#include "Graph.h"
 
 class KennyTracker : public QMainWindow
 {
@@ -13,5 +14,6 @@ public:
 
 private:
     Ui::KennyTrackerClass ui;
+    Graph* m_graph;
 };
 
