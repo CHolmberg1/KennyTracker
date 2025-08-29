@@ -24,6 +24,11 @@ public:
 	{
 		if (!connectingNode)
 			return;
+		for (auto* i : m_edges) 
+		{
+			if ((i->m_link.first == this && i->m_link.second == connectingNode) || (i->m_link.first == connectingNode && i->m_link.second == this))
+				return; // Edge already exists!
+		}
 		Edge* newEdge = new Edge(abs(getX() - connectingNode->getX()), abs(getY() - connectingNode->getY()), this, connectingNode);
 		m_edges.push_back(newEdge);
 		connectingNode->m_edges.push_back(newEdge);
