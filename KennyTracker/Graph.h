@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <QString>
+#include <QPoint>
 
 class Node;
 
@@ -16,25 +17,29 @@ struct Edge {
 
 class Node {
 public:
-	Node(const double x, const double y) : m_x(x), m_y(y) {}
+	Node(const double x, const double y) : m_x(x), m_y(y), m_id(createUniqueID()) {}
 	~Node() {}
 	const double getX() { return m_x; }
 	const double getY() { return m_y; }
-	void addEdge(Node* connectingNode) 
+	const int createUniqueID() { static int i = 0; return i++; }
+	const int getUniqueID() { return m_id; }
+	Edge* addEdge(Node* connectingNode) 
 	{
 		if (!connectingNode)
-			return;
+			return nullptr;
 		for (auto* i : m_edges) 
 		{
 			if ((i->m_link.first == this && i->m_link.second == connectingNode) || (i->m_link.first == connectingNode && i->m_link.second == this))
-				return; // Edge already exists!
+				return nullptr; // Edge already exists!
 		}
 		Edge* newEdge = new Edge(abs(getX() - connectingNode->getX()), abs(getY() - connectingNode->getY()), this, connectingNode);
 		m_edges.push_back(newEdge);
 		connectingNode->m_edges.push_back(newEdge);
+		return newEdge;
 	}
 private:
 	// Coordinates on the blacksburg map
+	const int m_id;
 	const double m_x;
 	const double m_y;
 	std::vector<Edge*> m_edges;
@@ -45,8 +50,13 @@ public:
 	Graph();
 	~Graph();
 	void loadNodes(QString fileName);
+	void loadEdges(QString fileName);
+	const std::vector<Edge*> getEdges();
+	const std::vector<Node*> getNodes();
+	void saveEdges(QString fileName);
 private:
 	void addNode(const double x, const double y, bool isSubNode = false);
-	void removeNode(const double x, const double y); // May replace with ID if more practical
+	Node* getNodeByID(int nodeID);
 	std::vector<Node*> m_nodes;
+	std::vector<Edge*> m_allEdges;
 };

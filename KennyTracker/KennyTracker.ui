@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<UI version="4.0" >
+<ui version="4.0">
  <class>KennyTrackerClass</class>
- <widget class="QMainWindow" name="KennyTrackerClass" >
-  <property name="objectName" >
-   <string notr="true">KennyTrackerClass</string>
-  </property>
-  <property name="geometry" >
+ <widget class="QMainWindow" name="KennyTrackerClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>KennyTracker</string>
-  </property>  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources>
-   <include location="KennyTracker.qrc"/>
+  <include location="KennyTracker.qrc"/>
  </resources>
  <connections/>
-</UI>
+</ui>
