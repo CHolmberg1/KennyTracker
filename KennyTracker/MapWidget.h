@@ -29,6 +29,7 @@ public:
 	void setEdges(std::vector<PaintCoordinates> edges);
 	void setEdgesShown(bool edgesShown) { m_edgesShown = edgesShown; update(); }
 	bool edgesShown() { return m_edgesShown; }
+	void setKennyPos(QPoint kennyPos);
 	const QPoint getCursorPos() const;
 protected:
 	void paintEvent(QPaintEvent *event) override;
@@ -38,4 +39,5 @@ private:
 	std::vector<PaintCoordinates> m_edges;
 	QPoint m_cursorPos;
 	bool m_nodesShown, m_edgesShown;
+	QPoint m_kennyPos;
 };

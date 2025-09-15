@@ -1,6 +1,6 @@
 #include "MapWidget.h"
 
-MapWidget::MapWidget(QWidget* parent) : QWidget(parent), m_nodesShown(false), m_edgesShown(false)
+MapWidget::MapWidget(QWidget* parent) : QWidget(parent), m_nodesShown(false), m_edgesShown(false), m_kennyPos(0, 0)
 {
 	setMinimumSize(500, 500);
     setMouseTracking(true);
@@ -42,7 +42,8 @@ void MapWidget::paintEvent(QPaintEvent* event)
         }
     }
     p.drawText(QPoint(450, 450), QString::number(m_cursorPos.x()) + ',' + QString::number(m_cursorPos.y()));
-    //p.drawRect(50, 50, 100, 75); // x, y, width, height
+    // DRAW KENNY
+    p.drawImage(m_kennyPos, QImage("kenny.png"));
 }
 
 void MapWidget::setEdges(std::vector<PaintCoordinates> edges) 
@@ -53,6 +54,14 @@ void MapWidget::setEdges(std::vector<PaintCoordinates> edges)
 void MapWidget::setNodes(std::vector<NodeCoordinates> nodes)
 {
     m_nodes = nodes;
+}
+
+void MapWidget::setKennyPos(QPoint kennyPos)
+{
+    // Add picture offset
+    kennyPos.setX(kennyPos.x() - 25);
+    kennyPos.setY(kennyPos.y() - 70);
+    m_kennyPos = kennyPos;
 }
 
 const QPoint MapWidget::getCursorPos() const

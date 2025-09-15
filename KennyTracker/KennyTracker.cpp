@@ -1,18 +1,23 @@
 #include "KennyTracker.h"
 #include <QKeyEvent>
+#include <QTimer>
+#include <QThread>
+
+#define kennyloop while(1 != 0)
 
 KennyTracker::KennyTracker(QWidget *parent)
-    : QMainWindow(parent), m_graph(new Graph())
+    : QMainWindow(parent), m_graph(new Graph()), m_kenny(new Kenny())
 {
     ui.setupUi(this);
     m_mapWidget = new MapWidget(this);
     setCentralWidget(m_mapWidget);
     m_graph->loadNodes("testData.csv");
+    // Kenny Thread
+    QThread* updateThread = QThread::create([this]() {
+        startKenny();
+        });
+    updateThread->start();
     renderGraph();
-
-    connect(this, &KennyTracker::mouseMoveEvent, this, [=]() {
-        update();
-    });
 }
 
 KennyTracker::~KennyTracker()
@@ -87,5 +92,21 @@ void KennyTracker::renderGraph()
         coordVec.push_back(coords);
     }
     m_mapWidget->setEdges(coordVec);
+    // Render Kenny!!!
+    m_mapWidget->setKennyPos(m_kenny->getKennyPos());
     update();
+}
+
+void KennyTracker::startKenny() 
+{
+    int k = 1;
+    m_kenny->setGraph(m_graph);
+    m_kenny->setKennyTarget(0, 1);
+    while (k != 0) 
+    {
+        m_kenny->update();
+        m_mapWidget->setKennyPos(m_kenny->getKennyPos());
+        update();
+        QThread::msleep(50);
+    }
 }
