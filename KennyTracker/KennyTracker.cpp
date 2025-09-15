@@ -107,6 +107,6 @@ void KennyTracker::startKenny()
         m_kenny->update();
         m_mapWidget->setKennyPos(m_kenny->getKennyPos());
         update();
-        QThread::msleep(50);
+        QThread::msleep(500);
     }
 }
