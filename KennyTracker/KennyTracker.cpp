@@ -3,8 +3,6 @@
 #include <QTimer>
 #include <QThread>
 
-#define kennyloop while(1 != 0)
-
 KennyTracker::KennyTracker(QWidget *parent)
     : QMainWindow(parent), m_graph(new Graph()), m_kenny(new Kenny())
 {
@@ -102,6 +100,7 @@ void KennyTracker::startKenny()
     int k = 1;
     m_kenny->setGraph(m_graph);
     m_kenny->setKennyTarget(0, 1);
+    std::srand(std::time(0));
     while (k != 0) 
     {
         m_kenny->update();

@@ -3,6 +3,7 @@
 #include <QTextStream>
 
 #define PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679
+
 Graph::Graph() 
 {
 
@@ -151,7 +152,6 @@ QPoint Kenny::getKennyPos()
 
 void Kenny::setKennyTarget(int currentNodeID, int targetNodeID) 
 {
-    static bool first = true;
     if (!m_graphPtr)
         return;
     Node* currNode = m_graphPtr->getNodeByID(currentNodeID);
@@ -159,11 +159,7 @@ void Kenny::setKennyTarget(int currentNodeID, int targetNodeID)
     Edge* targetEdge = nullptr;
     if (!currNode)
         return;
-    if (first)
-    {
-        m_location = QPointF(currNode->getX(), currNode->getY());
-        first = false;
-    }
+    m_location = QPointF(currNode->getX(), currNode->getY());
     if (!m_targetNode)
         return;
     for (auto& i : m_graphPtr->getEdges()) 
@@ -191,15 +187,16 @@ void Kenny::update()
     double y = m_location.y();
     m_location.setX(x + cos(m_direction));
     m_location.setY(y + sin(m_direction));
-    if (!m_targetNode) 
+    if (!m_targetNode)
     {
         // Set a new target
     }
     if (m_location.toPoint() == QPoint(m_targetNode->getX(), m_targetNode->getY())
         || ((m_location.x() < m_targetNode->getX() && cos(m_direction) < 0) || (m_location.x() > m_targetNode->getX() && cos(m_direction) > 0)
-        && (m_location.y() < m_targetNode->getY() && sin(m_direction) < 0) || (m_location.y() > m_targetNode->getY() && sin(m_direction) > 0)))
+            && (m_location.y() < m_targetNode->getY() && sin(m_direction) < 0) || (m_location.y() > m_targetNode->getY() && sin(m_direction) > 0)))
     {
         // We reached the target, set a random adjacent node as the next one!
+        std::srand(std::time(0));
         std::size_t edge = rand() % m_targetNode->getEdges().size();
         auto edgeLink = m_targetNode->getEdges()[edge]->m_link;
         int targetID;
